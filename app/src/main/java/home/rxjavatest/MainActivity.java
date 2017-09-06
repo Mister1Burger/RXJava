@@ -48,18 +48,22 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        TestClass testClass = new TestClass();
+        SecondTestClass testClass = new SecondTestClass();
+        testClass.setFlag(true);
 
-        testClass.getGuns()
-                .subscribeOn(Schedulers.io())
+        testClass.isFlag()
+                .doOnNext(aBoolean -> Log.d("TAG", String.valueOf(aBoolean)))
+                .flatMap(aBoolean -> testClass.getCars(aBoolean))
+                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
+//                .subscribeOn(Schedulers.io())
 //                .map(this::sortConversation)
                 .flatMap(Observable::fromIterable)
-                .filter(gun -> gun.getSpeedBullet() < 200)
+                .filter(car -> car.getSpeed() > 150)
                 .toList()
                 .toObservable()
-                .doOnNext(guns -> Log.d("TAG", String.valueOf(guns.size())))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(guns -> {
+                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
+ //               .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(cars -> {
                 }, throwable -> {
                 });
 
@@ -113,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 //        builder.setView(v);
         builder.setCancelable(true);
 
-        builder.setNegativeButton("Cancel", (dialogInterface, i) ->
+        builder.setNegativeButton("False", (dialogInterface, i) ->
         {
         });
         builder.setPositiveButton("Ok", (dialogInterface, i) ->
