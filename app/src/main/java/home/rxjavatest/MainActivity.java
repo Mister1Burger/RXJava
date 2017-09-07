@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -26,6 +27,9 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    SecondTestClass testClass = new SecondTestClass();
+
 
     @BindView(R2.id.tv_1)
     EditText tv1;
@@ -48,38 +52,40 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
-        SecondTestClass testClass = new SecondTestClass();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Hello");
-        builder.setMessage("Message");
-//        builder.setCustomTitle(viewTitle);
-//        builder.setView(v);
-        builder.setCancelable(true);
-
-        builder.setNegativeButton("False", (dialogInterface, i) -> testClass.setFlag(false));
-        builder.setPositiveButton("True", (dialogInterface, i) -> testClass.setFlag(true));
-        builder.show();
+        actOfDialog();
 
 
 
-        testClass.isFlag()
-                .doOnNext(aBoolean -> Log.d("TAG", String.valueOf(aBoolean)))
-                .flatMap(aBoolean -> testClass.getCars(aBoolean))
-                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
-//                .subscribeOn(Schedulers.io())
-//                .map(this::sortConversation)
-                .flatMap(Observable::fromIterable)
-                .filter(car -> car.getSpeed() > 150)
-                .toList()
-                .toObservable()
-                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
- //               .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cars -> {
-                }, throwable -> {
-                });
-
-        fab.setOnClickListener(view -> showDialog());
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+//        builder.setTitle("Hello");
+//        builder.setMessage("Message");
+////        builder.setCustomTitle(viewTitle);
+////        builder.setView(v);
+//        builder.setCancelable(true);
+//
+//        builder.setNegativeButton("False", (dialogInterface, i) -> testClass.setFlag(false));
+//        builder.setPositiveButton("True", (dialogInterface, i) -> testClass.setFlag(true));
+//        builder.show();
+//
+//
+//
+//        testClass.isFlag()
+//                .doOnNext(aBoolean -> Log.d("TAG", String.valueOf(aBoolean)))
+//                .flatMap(aBoolean -> testClass.getCars(aBoolean))
+//                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
+////                .subscribeOn(Schedulers.io())
+////                .map(this::sortConversation)
+//                .flatMap(Observable::fromIterable)
+//                .filter(car -> car.getSpeed() > 150)
+//                .toList()
+//                .toObservable()
+//                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
+// //               .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(cars -> {
+//                }, throwable -> {
+//                });
+//
+//        fab.setOnClickListener(view -> showDialog());showDialog
     }
 
     @Override
@@ -112,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setEnabled(flag);
     }
 
-    private void showDialog() {
+   // private void showDialog() {
         //       View viewTitle = activity.getLayoutInflater().inflate(R.layout.item_text_view_title, null, false);
         //       TextView title = viewTitle.findViewById(R.id.title);
 //        title.setText(R.string.delete_profile);
@@ -122,21 +128,21 @@ public class MainActivity extends AppCompatActivity {
 //        TextView text = v.findViewById(R.id.txt_message);
 //        text.setText(txt);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle("Hello");
-        builder.setMessage("Message");
+       // AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+      //  builder.setTitle("Hello");
+      //  builder.setMessage("Message");
 //        builder.setCustomTitle(viewTitle);
 //        builder.setView(v);
-        builder.setCancelable(true);
+      //  builder.setCancelable(true);
 
-        builder.setNegativeButton("False", (dialogInterface, i) ->
-        {
-        });
-        builder.setPositiveButton("True", (dialogInterface, i) ->
-        {
-        });
-        builder.show();
-    }
+      //  builder.setNegativeButton("False", (dialogInterface, i) ->
+      //  {
+      //  });
+      //  builder.setPositiveButton("True", (dialogInterface, i) ->
+      //  {
+       // });
+      //  builder.show();
+  //  }
 
     private void showDataPicker() {
 
@@ -182,5 +188,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void actWithCars () {
+
+        testClass.isFlag()
+                .doOnNext(aBoolean -> Log.d("TAG", String.valueOf(aBoolean)))
+                .flatMap(aBoolean -> testClass.getCars(aBoolean))
+                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
+//                .subscribeOn(Schedulers.io())
+//                .map(this::sortConversation)
+                .flatMap(Observable::fromIterable)
+                .filter(car -> car.getSpeed() > 150)
+                .toList()
+                .toObservable()
+                .doOnNext(cars -> Log.d("TAG", String.valueOf(cars.size())))
+                //               .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(cars -> {
+                }, throwable -> {
+                });
+
+
+    }
+    public void actOfDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("Hello");
+        builder.setMessage("Message");
+//        builder.setCustomTitle(viewTitle);
+//        builder.setView(v);
+        builder.setCancelable(true);
+
+        builder.setNegativeButton("False", (dialogInterface, i) -> {testClass.setFlag(false);actWithCars();});
+        builder.setPositiveButton("True", (dialogInterface, i) -> {testClass.setFlag(true);actWithCars();});
+        builder.show();
     }
 }
