@@ -1,6 +1,7 @@
 package home.rxjavatest;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -49,7 +50,18 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         SecondTestClass testClass = new SecondTestClass();
-        testClass.setFlag(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle("Hello");
+        builder.setMessage("Message");
+//        builder.setCustomTitle(viewTitle);
+//        builder.setView(v);
+        builder.setCancelable(true);
+
+        builder.setNegativeButton("False", (dialogInterface, i) -> testClass.setFlag(false));
+        builder.setPositiveButton("True", (dialogInterface, i) -> testClass.setFlag(true));
+        builder.show();
+
+
 
         testClass.isFlag()
                 .doOnNext(aBoolean -> Log.d("TAG", String.valueOf(aBoolean)))
@@ -86,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 ,
                 RxViewEvents
                         .getTextChangeObservable(tv3)
-                        .map(value -> value.matches("\\+\\d{4}"))
+                        .map(value -> value.matches("d{4}"))
 //                        .doOnNext(value -> checkAndSetError(value, errorPhone, txtPhoneText))
                 ,
                 (f1, f2, f3) -> f1 && f2 && f3)
@@ -120,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("False", (dialogInterface, i) ->
         {
         });
-        builder.setPositiveButton("Ok", (dialogInterface, i) ->
+        builder.setPositiveButton("True", (dialogInterface, i) ->
         {
         });
         builder.show();
