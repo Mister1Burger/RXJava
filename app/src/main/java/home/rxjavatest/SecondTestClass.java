@@ -24,7 +24,7 @@ public class SecondTestClass {
     public Observable<List<Car>> getCars(boolean flag) {
 
         List<Car> carList = new ArrayList<>();
-        if (flag = true) {
+        if (flag == true) {
 
             return Observable.just(carList)
                     .doOnNext(cars -> cars.add(new Car("Black", 180)))
